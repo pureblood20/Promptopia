@@ -6,7 +6,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const Nav = () => {
-  const isUserLoggedIn = true;
+  const { data: session } = useSession();
+
   const [providers, setProviders] = useState(null);
   const [toggleDropDown, setToggleDroppDown] = useState();
   useEffect(() => {
@@ -22,6 +23,7 @@ const Nav = () => {
         <Image
           className="object-contain"
           src="/assets/images/logo.svg"
+          alt="Profile Pic"
           width="30"
           height="30"
         ></Image>
@@ -29,7 +31,7 @@ const Nav = () => {
       </Link>
 
       <div className="sm:flex hidden">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/create-prompt" className="black_btn">
               Create Prompt
@@ -39,7 +41,7 @@ const Nav = () => {
             </button>
             <Link href="/profile">
               <Image
-                src="/assets/images/logo.svg"
+                src={session.user.image}
                 width={37}
                 height={37}
                 className="rounded-full"
@@ -49,23 +51,25 @@ const Nav = () => {
         ) : (
           <div>
             {providers &&
-              Object.values(providers).map((provider) => (
-                <button
-                  type="button"
-                  onClick={() => signIn(provider.id)}
-                  className="black_btn"
-                  key={provider.name}
-                >
-                  Sign In
-                </button>
-              ))}
+              Object.values(providers).map((provider) => {
+                return (
+                  <button
+                    type="button"
+                    onClick={() => signIn(provider.id)}
+                    className="black_btn"
+                    key={provider.name}
+                  >
+                    Sign In
+                  </button>
+                );
+              })}
           </div>
         )}
       </div>
       {/* mobile navi */}
       <div className="sm:hidden flex relative">
         test
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex">
             <Image
               src="/assets/images/logo.svg"

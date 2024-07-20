@@ -1,4 +1,6 @@
-const Home = () => {
+import Feed from "@Components/Feed";
+
+const Home = async () => {
   return (
     <section className="w-full flex-center flex-col ">
       <h1 className="head_text text-center">
@@ -10,6 +12,7 @@ const Home = () => {
         Promptopia is an open-source AI prompting tool for modern world to
         discover, create and share creative prompts
       </p>
+      <Feed />
     </section>
   );
 };
